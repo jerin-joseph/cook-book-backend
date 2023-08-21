@@ -8,10 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -32,7 +31,27 @@ public class UserController {
         }
         User savedUser = userService.saveUser(user);
         log.info("Created "+savedUser.toString());
-        return new ResponseEntity<>(savedUser,HttpStatus.OK);
+        return new ResponseEntity<>(savedUser,HttpStatus.CREATED);
+    }
+
+    @GetMapping(path = "/login")
+    public ResponseEntity<Object> login(@RequestParam String username,@RequestParam String password){
+
+        log.info(username+password);
+        Optional<User> foundUser = userService.findUserByEmail(username);
+        if(foundUser.isPresent()){
+            User user = foundUser.get();
+            Boolean result = user.getPassword().equals(password);
+            if(result.equals(true)){
+                return new ResponseEntity<>(user,HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<>("Authentication Failed",HttpStatus.OK);
+            }
+        }
+        else{
+            return new ResponseEntity<>("Authentication failed",HttpStatus.OK);
+        }
     }
 
 }

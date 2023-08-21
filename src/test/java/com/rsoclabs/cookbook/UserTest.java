@@ -1,18 +1,17 @@
 package com.rsoclabs.cookbook;
 
 import com.rsoclabs.cookbook.entity.User;
-import com.rsoclabs.cookbook.repository.UserRepository;
 import com.rsoclabs.cookbook.service.UserService;
-import com.rsoclabs.cookbook.service.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class SignupTest {
+public class UserTest {
 
     @Autowired
     private UserService userService;
@@ -23,5 +22,14 @@ public class SignupTest {
         User savedUser = userService.saveUser(u1);
         assertTrue(savedUser.getId()>0);
 
+    }
+
+    @Test
+    public void findUserByEmail(){
+        String email="jerin@rsoclabs.com";
+        String password="password";
+        Optional<User> foundUser = userService.findUserByEmail(email);
+        assertNotNull(foundUser.get());
+        assertEquals(foundUser.get().getPassword(),password);
     }
 }
