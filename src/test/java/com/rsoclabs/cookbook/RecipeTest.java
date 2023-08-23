@@ -1,5 +1,6 @@
 package com.rsoclabs.cookbook;
 
+import com.rsoclabs.cookbook.entity.Ingredient;
 import com.rsoclabs.cookbook.entity.Recipe;
 import com.rsoclabs.cookbook.service.RecipeService;
 import org.junit.jupiter.api.Test;
@@ -8,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,10 +20,15 @@ public class RecipeTest {
     RecipeService recipeService;
     @Test
     public void getRecipebyId(){
-        Recipe recipe = new Recipe(null,1L,"bullseye","a simple recipe",
-                "egg,oil",
-                new Date());
-        Recipe savedRecipe = recipeService.create(recipe);
+        Recipe recipe = Recipe.builder()
+                .name("Omlette")
+                .date(new Date())
+                .authorId(1L)
+                .description("simple recipe")
+                .ingredients(List.of(Ingredient.builder().ingName("Egg").ingQty("1").build(),
+                            Ingredient.builder().ingName("onion").ingQty("2").build()))
+                .build();
+        Recipe savedRecipe = recipeService.save(recipe);
         System.out.println(savedRecipe);
         Optional<Recipe> foundRecipe = recipeService.findRecipeById(savedRecipe.getId());
         System.out.println(foundRecipe);

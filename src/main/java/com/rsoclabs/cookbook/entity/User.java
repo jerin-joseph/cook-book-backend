@@ -16,7 +16,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class User {
     @Id
-    @GeneratedValue
+    @SequenceGenerator(name = "user_sequence", sequenceName = "user_seq", allocationSize = 1,initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @NotEmpty(message ="First name cannot be empty.")
     private String firstName;
@@ -24,6 +26,7 @@ public class User {
     private String lastName;
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
             flags = Pattern.Flag.CASE_INSENSITIVE,message ="Email should be valid.")
+    @Column(nullable = false, unique = true)
     private String email;
     @NotEmpty
     @Size(min = 8, message = "Password must have minimum 8 characters")
