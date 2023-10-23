@@ -35,7 +35,8 @@ jobs:
       with:
         arguments: build -x test
         
-  docker:
+  docker_publish:
+    name: Build and Publish docker image
     needs: build
     runs-on: ubuntu-latest
     steps:
