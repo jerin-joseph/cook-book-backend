@@ -50,3 +50,5 @@ jobs:
         dockerfile: Dockerfile
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
