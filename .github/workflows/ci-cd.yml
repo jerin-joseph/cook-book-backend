@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   build:
@@ -25,7 +26,7 @@ jobs:
         with:
           arguments: build -x test
 
-  docker_publish:
+  deploy:
     name: Create & Push docker image to ECR
     needs: build
     runs-on: ubuntu-latest
@@ -35,12 +36,9 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        role-to-assume: arn:aws:iam::454524533145:user/github-cicd
+        role-to-assume: arn:aws:iam::454524533145:role/github-cicd
         aws-region: us-east-1
 
-    - name: Login to Amazon ECR Private
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v2
     - name: Login to Amazon ECR Public
       id: login-ecr-public
       uses: aws-actions/amazon-ecr-login@v2
@@ -50,9 +48,11 @@ jobs:
     - name: Build, tag, and push docker image to Amazon ECR Public
       env:
         REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
-        REGISTRY_ALIAS: 454524533145.dkr.ecr.eu-north-1.amazonaws.com
+        REGISTRY_ALIAS: f0q3d7e3
         REPOSITORY: cookbook-ecr
-        IMAGE_TAG: ${{ github.sha }}
+        # IMAGE_TAG: ${{ github.sha }}
+        IMAGE_TAG: latest
+        
       run: |
         docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
         docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
