@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cook-book
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cook-book
+  template:
+    metadata:
+      labels:
+        app: cook-book
+    spec:
+      containers:
+        - name: app
+          image: 123jerin/cookbook-cicd:latest
+          ports:
+            - containerPort: 8080
