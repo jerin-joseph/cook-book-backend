@@ -21,9 +21,6 @@ jobs:
         role-to-assume: arn:aws:iam::454524533145:user/github-cicd
         aws-region: us-east-1
 
-    - name: Login to Amazon ECR Private
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v2
     - name: Login to Amazon ECR Public
       id: login-ecr-public
       uses: aws-actions/amazon-ecr-login@v2
