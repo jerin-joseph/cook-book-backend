@@ -13,8 +13,8 @@ spec:
         app: cook-book
     spec:
       containers:
-        - name: app
-          image: 123jerin/cookbook-cicd:latest
+        - name: cook-book
+          image: public.ecr.aws/f0q3d7e3/cookbook-ecr:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
