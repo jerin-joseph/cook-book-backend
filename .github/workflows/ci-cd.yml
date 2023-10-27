@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   build:
-    name: Run Build
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -27,11 +27,17 @@ jobs:
           arguments: build -x test
 
   deploy:
-    name: Create & Push docker image to ECR
+    name: Deploy
     needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+
+    - name: Install kubectl
+    - uses: azure/setup-kubectl@v3
+      with:
+        version: 'v1.28.3' # default is latest stable
+      id: install
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
@@ -52,20 +58,16 @@ jobs:
         REPOSITORY: cookbook-ecr
         # IMAGE_TAG: ${{ github.sha }}
         IMAGE_TAG: latest
-        
       run: |
         docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
         docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
-
-    - name: Install kubectl
-    - uses: azure/setup-kubectl@v3
-#      with:
-#        version: '<version>' # default is latest stable
-      id: install
 
     - name: update kube config
       run: aws eks update-kubeconfig --name cook-book-eks-cluster --region eu-north-1
 
     - name: Deploy image to Amazon EKS
       run: |
-        kubectl apply -f k8s
+        kubectl apply -f k8s/aws-auth.yaml
+        kubectl apply -f k8s/Deployment.yaml
+        kubectl apply -f k8s/Service.yaml
+        kubectl apply -f k8s/ingress.yaml
