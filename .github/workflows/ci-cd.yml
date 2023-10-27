@@ -56,3 +56,16 @@ jobs:
       run: |
         docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
         docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
+
+    - name: Install kubectl
+    - uses: azure/setup-kubectl@v3
+#      with:
+#        version: '<version>' # default is latest stable
+      id: install
+
+    - name: update kube config
+      run: aws eks update-kubeconfig --name cook-book-eks-cluster --region eu-north-1
+
+    - name: Deploy image to Amazon EKS
+      run: |
+        kubectl apply -f k8s

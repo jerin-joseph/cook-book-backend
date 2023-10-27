@@ -15,5 +15,6 @@ spec:
       containers:
         - name: app
           image: 123jerin/cookbook-cicd:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
