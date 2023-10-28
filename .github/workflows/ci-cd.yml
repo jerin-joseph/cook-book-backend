@@ -56,15 +56,14 @@ jobs:
         docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
         docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
 
-    - name: update kube config
-      run: |
-        aws sts get-caller-identity
-        aws eks update-kubeconfig --name cook-book-eks-cluster --region eu-north-1
-        aws sts get-caller-identity
+#
+#    - name: update kube config
+##      run: aws eks update-kubeconfig --name cook-book-eks-cluster --region eu-north-1
+
 
     - name: Deploy image to Amazon EKS
       run: |
-        kubectl apply -f k8s/aws-auth.yaml
+#        kubectl apply -f k8s/aws-auth.yaml
         kubectl apply -f k8s/Deployment.yaml
         kubectl apply -f k8s/Service.yaml
         kubectl apply -f k8s/ingress.yaml
