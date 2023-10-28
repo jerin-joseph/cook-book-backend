@@ -6,40 +6,41 @@ permissions:
   contents: read
   id-token: write
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      - name: Change wrapper permissions
-        run: chmod +x ./gradlew
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-        with:
-          arguments: build -x test
+#  build:
+#    name: Build
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - name: Set up JDK 17
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: '17'
+#          distribution: 'temurin'
+#      - name: Change wrapper permissions
+#        run: chmod +x ./gradlew
+#      - name: Build with Gradle
+#        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+#        with:
+#          arguments: build -x test
   deploy:
     name: Deploy
-    needs: build
+#    needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     
-    - name: Install kubectl
-      uses: azure/setup-kubectl@v3
-      with:
-        version: 'v1.28.3' # default is latest stable
-      id: install
+#    - name: Install kubectl
+#      uses: azure/setup-kubectl@v3
+#      with:
+#        version: 'v1.28.3' # default is latest stable
+#      id: install
       
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        role-to-assume: arn:aws:iam::454524533145:role/github-cicd
-        aws-region: us-east-1
+        role-to-assume: arn:aws:iam::454524533145:role/github-user
+        aws-region: eu-north-1
+
     - name: Login to Amazon ECR Public
       id: login-ecr-public
       uses: aws-actions/amazon-ecr-login@v2
@@ -56,12 +57,12 @@ jobs:
         docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
         docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
 
-    - name: update kube config
-      run: aws eks update-kubeconfig --name cook-book-eks-cluster --region eu-north-1
-
-    - name: Deploy image to Amazon EKS
-      run: |
-        kubectl apply -f k8s/aws-auth.yaml
-        kubectl apply -f k8s/Deployment.yaml
-        kubectl apply -f k8s/Service.yaml
-        kubectl apply -f k8s/ingress.yaml
+#    - name: update kube config
+#      run: aws eks update-kubeconfig --name cook-book-eks-cluster --region eu-north-1
+#
+#    - name: Deploy image to Amazon EKS
+#      run: |
+#        kubectl apply -f k8s/aws-auth.yaml
+#        kubectl apply -f k8s/Deployment.yaml
+#        kubectl apply -f k8s/Service.yaml
+#        kubectl apply -f k8s/ingress.yaml
