@@ -58,8 +58,8 @@ jobs:
         docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
 
     - name: update kube config
-      run: aws eks update-kubeconfig --name cookbook-cluster --region eu-north-1
-
+#      run: aws eks update-kubeconfig --name cookbook-cluster --region eu-north-1
+      run: aws eks update-kubeconfig --name cookbook-cluster --region eu-north-1  --profile github
     - name: Deploy image to Amazon EKS
       run: |
         kubectl apply -f k8s/aws-auth.yaml

@@ -1,0 +1,79 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: /Users/Jerin/.minikube/ca.crt
+    extensions:
+    - extension:
+        last-update: Thu, 26 Oct 2023 15:32:11 BST
+        provider: minikube.sigs.k8s.io
+        version: v1.31.2
+      name: cluster_info
+    server: https://127.0.0.1:51925
+  name: minikube
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJRmI5bjZYZGpFK2t3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TXpFd01qWXlNakkyTXpkYUZ3MHpNekV3TWpNeU1qTXhNemRhTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUURZSEprUmE4ZVRka0E3MzFWNUk4TmVDVkdieG5SQ0lMVkFYU0RMTC9YTmVEUGI2dXd6M0QvUjdLVm4KZXR0V2RERGJKcUMyV25HY0JJU3lDSnpBY2FsSG53eURmMjRnMW1IRCt0NEVoSHRuT3hGNVhzdEhrcE0rb2RlQQpNeDZhS0lnZXZIS015bzJ2cFhOTzdKZzBmZk9OSmtHTHMybzFXbmRyM3NQaEphNU5hM0x6dUwzOWpIYXM1VmlNCmw4QUFEUmdlVUpzZS9uNDZ0SkMvSDRseEROcjZmOFFadTBuTHU4bGxKTHhUNVFpbjFrelBNQnIybURFdUhiclcKSWZ6L0xuMEV3cXMzSlBaVEpPQkpDUFVYUG9JNS9CYyt1cCtwS3lYeUU0K2Q1T2djaWZVQWVuTGp6Zzl5Ukh0NgppbzU1QU9vMzl0OTNhbU5FNUFRUzRzMkw3SkNoQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJRNzVGd3VvTHdzZ3RMQTE1WjhNUktiMUo0a3FUQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQXNZeXNsZjhxdQpCOVY5Y2I3V0FKYjF5WGlWWnpWRGJ1RnNrN2Znb0lOQ2JxRnN5VytmTENUNERoN3dRMDhNcDI5N21QYUlHN0psCmpiTHphYzRnZ3hYNlZuY2lsWTFkbEx6dlZKelJhSkMzdDBibjFKdU5ldXFKaFpNbzkyTkZlVWRHUEYyQ1VMNEcKSUdIeWg3WWhtdkhNUnpSM3htRVl4YmFvOTk5M1ZYQ0NnR2NvWmkzMEpFMVZrZFBiRmVobUQvaDhpNERRMFJFUQo5NjdDZ2Q2N2RFMVFyalU2S2ZkQUp3L1R0SjFUcDRNb3Nqc0k0OW94cVMzK1U3OHZQKzBESyt0WkdRTVdHWUNPCmF0QWc3N3g3eFRsRlBoVkxiS1RVa0piQjZYUlpOSjhHYjdFTWNTTE9jUUpuaGJmWHFNVjVzSDVKVVRTRWE1V1oKVGFYVFpjdEdocmpYCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://E42777F964E79E53FF4C08AB5CF9FBE0.yl4.eu-north-1.eks.amazonaws.com
+  name: arn:aws:eks:eu-north-1:454524533145:cluster/cook-book-eks-cluster
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJV3ovZnF6bzIzOFl3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TXpFd01qZ3hOVE15TXpWYUZ3MHpNekV3TWpVeE5UTTNNelZhTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUURBc251blE3RE9iUVkzczNUNXFEUTRXV2o2ejc4T0tHTk04QmlpTW1BZDBKWDVhN1FiaG5QYnN6KzAKYU5KR2MzaVNHOGVRQzB1WFZLWFNidGw3eHpGR1pUSHFTNlBhRzB3QUNwVzYzbDd3ZHZJdWE4cFhIUFNGZ2NMUApNNDRrcHNtT1BNTFU2bU9zQVI3Q3hiOGZDbS9RWEozOXRqRVN5NDlkQkQ2dlpyQ2I2MUJjbFpDS2NjS05Xdjl1CnU1NEhNdW02L0UxbGUzRFdQOE9JdGQxSGVyTlFRamFFYjJBbmJscWc3R1kwTVVSVS83cjNkRkFMdnBxcE9ETXoKcFI5WGtQMkpHc1E4OGpjM2UrZ2k1N25tbFdPSzJURXR0R2VwdndPMk9WZ25KMnRpc3cvTnlTYU5KellIRU0wVgo1WEpWOThwSFNWYXdsc3Y4akRZTUdNdzZWV2d2QWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJTajRIYkt1QlVxNjU0clBkVWdaZVVjZTlUY3JUQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQXlscndFdGNWaQpiNmRIazVISDJHckJrczVtYmxvYmVyUzNGSDU5ZjlBakpkMm16NWk4T0owTVZjRlU3bW1qaDZVVkFGdnZ6OUF4CkJmMUJrQ3VMRFgxdmVHZEtxRWF0WmY5NDhBZ2Y3VE9MN3N6MmJRMlRYckRTT2ZPV1FQNDkzSm1oM1o4SS9LU1EKYzk3aFRhdXdtUDR6YS9tWHdnSUFJSjB3ZWhjakxsTzlGN0d3NklaOWp3VHYzUmFEYXRJUU9OcjF6M1VENlM1OAo3dkVEZ0ZRWFJNRjk5b2pvSGhMOCtSU3U0NTNYT2pGZ3puRlUrQjYyVEdORlIwTUVSclp5eXI5cTJxdnR0N0hyCm9UdFg1MEpjcEk1Q1pWODMyUmg4UXpVVDdIUnlaanFSc3JyWTg0SGovQVQ1SkR0YzVsNGVZMmhKUE01d29XaWYKeTVFK0d2RnA0UG8xCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://7888BC3C69805AB58BC42ED3CE51AFDC.sk1.eu-north-1.eks.amazonaws.com
+  name: arn:aws:eks:eu-north-1:454524533145:cluster/cookbook-cluster
+contexts:
+- context:
+    cluster: minikube
+    extensions:
+    - extension:
+        last-update: Thu, 26 Oct 2023 15:32:11 BST
+        provider: minikube.sigs.k8s.io
+        version: v1.31.2
+      name: context_info
+    namespace: default
+    user: minikube
+  name: minikube
+- context:
+    cluster: arn:aws:eks:eu-north-1:454524533145:cluster/cook-book-eks-cluster
+    user: arn:aws:eks:eu-north-1:454524533145:cluster/cook-book-eks-cluster
+  name: arn:aws:eks:eu-north-1:454524533145:cluster/cook-book-eks-cluster
+- context:
+    cluster: arn:aws:eks:eu-north-1:454524533145:cluster/cookbook-cluster
+    user: arn:aws:eks:eu-north-1:454524533145:cluster/cookbook-cluster
+  name: arn:aws:eks:eu-north-1:454524533145:cluster/cookbook-cluster
+current-context: arn:aws:eks:eu-north-1:454524533145:cluster/cookbook-cluster
+kind: Config
+preferences: {}
+users:
+- name: minikube
+  user:
+    client-certificate: /Users/Jerin/.minikube/profiles/minikube/client.crt
+    client-key: /Users/Jerin/.minikube/profiles/minikube/client.key
+- name: arn:aws:eks:eu-north-1:454524533145:cluster/cook-book-eks-cluster
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args:
+      - --region
+      - eu-north-1
+      - eks
+      - get-token
+      - --cluster-name
+      - cook-book-eks-cluster
+      - --output
+      - json
+      command: aws
+- name: arn:aws:eks:eu-north-1:454524533145:cluster/cookbook-cluster
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args:
+      - --region
+      - eu-north-1
+      - eks
+      - get-token
+      - --cluster-name
+      - cookbook-cluster
+      - --output
+      - json
+      command: aws
+      env:
+      - name: AWS_PROFILE
+        value: github
