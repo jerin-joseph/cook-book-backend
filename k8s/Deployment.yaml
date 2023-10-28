@@ -1,7 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cook-book
+  name: cook-book-deployment
+  labels:
+    app: cook-book
 spec:
   replicas: 1
   selector:

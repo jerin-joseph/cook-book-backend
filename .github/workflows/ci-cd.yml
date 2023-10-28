@@ -29,11 +29,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-#    - name: Install kubectl
-#      uses: azure/setup-kubectl@v3
-#      with:
-#        version: 'v1.28.3' # default is latest stable
-#      id: install
+    - name: Install kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'v1.28.3' # default is latest stable
+      id: install
       
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
@@ -65,4 +65,4 @@ jobs:
         kubectl apply -f k8s/aws-auth.yaml
         kubectl apply -f k8s/Deployment.yaml
         kubectl apply -f k8s/Service.yaml
-        kubectl apply -f k8s/ingress.yaml
+#        kubectl apply -f k8s/ingress.yaml
