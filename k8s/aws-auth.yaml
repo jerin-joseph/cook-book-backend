@@ -5,7 +5,7 @@ metadata:
   namespace: kube-system
 data:
   mapRoles: |
-    - rolearn: arn:aws:iam::454524533145:role/github-cicd
+    - rolearn: arn:aws:iam::454524533145:role/github-cicdarn:aws:iam::454524533145:root
       username: github-cicd
       groups:
         - system:bootstrappers
