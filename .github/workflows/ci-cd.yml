@@ -59,7 +59,7 @@ jobs:
 
     - name: update kube config
 #      run: aws eks update-kubeconfig --name cookbook-cluster --region eu-north-1
-      run: aws eks update-kubeconfig --name cookbook-cluster --region eu-north-1  --profile github
+      run: aws eks update-kubeconfig --name cookbook-cluster --region eu-north-1
     - name: Deploy image to Amazon EKS
       run: |
         kubectl apply -f k8s/aws-auth.yaml
