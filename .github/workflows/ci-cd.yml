@@ -30,7 +30,7 @@ jobs:
     - uses: actions/checkout@v3
     
     - name: Install kubectl
-    - uses: azure/setup-kubectl@v3
+      uses: azure/setup-kubectl@v3
       with:
         version: 'v1.28.3' # default is latest stable
       id: install
@@ -55,9 +55,11 @@ jobs:
       run: |
         docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
         docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
+
 #
 #    - name: update kube config
 ##      run: aws eks update-kubeconfig --name cook-book-eks-cluster --region eu-north-1
+
 
     - name: Deploy image to Amazon EKS
       run: |
