@@ -5,7 +5,6 @@ metadata:
   namespace: kube-system
 data:
   mapUsers: |
-    - userarn: arn:aws:iam::454524533145:user/github-cicd
-      username: github-cicd
+    - userarn: arn:aws:iam::454524533145:root
       groups:
         - system:masters
