@@ -14,7 +14,7 @@ env:
 #  KUBE_NAMESPACE: production
 #  ECR_REPOSITORY: my-cool-application
 #  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
+jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
