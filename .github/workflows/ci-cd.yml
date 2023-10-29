@@ -15,25 +15,25 @@ env:
 #  ECR_REPOSITORY: my-cool-application
 #  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      - name: Change wrapper permissions
-        run: chmod +x ./gradlew
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-        with:
-          arguments: build -x test
+#  build:
+#    name: Build
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - name: Set up JDK 17
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: '17'
+#          distribution: 'temurin'
+#      - name: Change wrapper permissions
+#        run: chmod +x ./gradlew
+#      - name: Build with Gradle
+#        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+#        with:
+#          arguments: build -x test
   deploy:
     name: Deploy
-    needs: build
+#    needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -59,19 +59,19 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v1
       with:
         registry-type: public
-    - name: Build, tag, and push docker image to Amazon ECR Public
-      env:
-        REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
-        REGISTRY_ALIAS: f0q3d7e3
-        REPOSITORY: cookbook-ecr
-        # IMAGE_TAG: ${{ github.sha }}
-        IMAGE_TAG: latest
-      run: |
-        docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
-        docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
+#    - name: Build, tag, and push docker image to Amazon ECR Public
+#      env:
+#        REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
+#        REGISTRY_ALIAS: f0q3d7e3
+#        REPOSITORY: cookbook-ecr
+#        # IMAGE_TAG: ${{ github.sha }}
+#        IMAGE_TAG: latest
+#      run: |
+#        docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
+#        docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
 
-    - name: update kube config
-      run: aws eks update-kubeconfig --name cookbook-cluster --region eu-north-1
+#    - name: update kube config
+#      run: aws eks update-kubeconfig --name cookbook-cluster --region eu-north-1
 #      run: aws eks update-kubeconfig --name cookbook-cluster --region eu-north-1
 #    - name: Deploy image to Amazon EKS
 #      run: |
@@ -85,5 +85,3 @@ jobs:
         RELEASE_IMAGE: ${{ steps.login-ecr-public.outputs.registry }}/f0q3d7e3/cookbook-ecr:latest
         ECR_REPOSITORY: cookbook-ecr
         IMAGE_TAG: latest
-      with:
-        args: set image deployment/$ECR_REPOSITORY $ECR_REPOSITORY=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
