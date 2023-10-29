@@ -79,9 +79,11 @@ jobs:
 #        kubectl apply -f k8s/Deployment.yaml
 #        kubectl apply -f k8s/Service.yaml
 #        kubectl apply -f k8s/ingress.yaml
-    - name: Deploy to Kubernetes cluster
-      uses: kodermax/kubectl-aws-eks@master
+    - name: deploy to cluster
+      uses: kodermax/kubectl-aws-eks@main
       env:
-        RELEASE_IMAGE: ${{ steps.login-ecr-public.outputs.registry }}/f0q3d7e3/cookbook-ecr:latest
-        ECR_REPOSITORY: cookbook-ecr
-        IMAGE_TAG: latest
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        ECR_REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
+        ECR_REPOSITORY: my-app
+      with:
+        args: set image deployment/cookbook $ECR_REPOSITORY=$ECR_REGISTRY/f0q3d7e3/cookbook-ecr/cook-book:latest
