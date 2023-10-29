@@ -83,5 +83,7 @@ jobs:
       uses: kodermax/kubectl-aws-eks@master
       env:
         RELEASE_IMAGE: ${{ steps.login-ecr-public.outputs.registry }}/f0q3d7e3/cookbook-ecr:latest
+        ECR_REPOSITORY: cookbook-ecr
+        IMAGE_TAG: latest
       with:
-        args: set image deployment/my-pod app=${{ env.RELEASE_IMAGE }} --record -n $KUBE_NAMESPACE
+        args: set image deployment/$ECR_REPOSITORY $ECR_REPOSITORY=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
