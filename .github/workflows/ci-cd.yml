@@ -84,4 +84,9 @@ jobs:
       env:
         RELEASE_IMAGE: ${{ steps.login-ecr-public.outputs.registry }}/f0q3d7e3/cookbook-ecr:latest
       with:
-        args: set image deployment/my-pod app=${{ env.RELEASE_IMAGE }} --record -n $KUBE_NAMESPACE
+        args: set image deployment/cook-book app=${{ env.RELEASE_IMAGE }} --record -n $KUBE_NAMESPACE
+
+    - name: Verify Kubernetes deployment
+      uses: kodermax/kubectl-aws-eks@master
+      with:
+        args: rollout status deploy my-pod -n $KUBE_NAMESPACE
