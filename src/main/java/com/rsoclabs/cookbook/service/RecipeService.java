@@ -2,6 +2,7 @@ package com.rsoclabs.cookbook.service;
 
 import com.rsoclabs.cookbook.entity.Recipe;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface RecipeService {
@@ -12,4 +13,6 @@ public interface RecipeService {
     Recipe update(Recipe recipe);
 
     void deleteRecipe(Long id);
+
+    List<Recipe> findAllRecipe();
 }
