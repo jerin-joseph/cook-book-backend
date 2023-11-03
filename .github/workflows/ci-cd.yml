@@ -1,92 +1,92 @@
-name: Build & Deploy
-on:
-  push:
-    branches: [ "main" ]
-permissions:
-  contents: read
-  id-token: write
-env:
-  RELEASE_REVISION: "pr-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}"
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#  AWS_REGION: ${{ secrets.AWS_REGION }}
-  KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-  KUBE_NAMESPACE: default
-#  ECR_REPOSITORY: my-cool-application
-#  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-jobs:
-#  build:
-#    name: Build
+#name: Build & Deploy
+#on:
+#  push:
+#    branches: [ "main" ]
+#permissions:
+#  contents: read
+#  id-token: write
+#env:
+#  RELEASE_REVISION: "pr-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}"
+#  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+##  AWS_REGION: ${{ secrets.AWS_REGION }}
+#  KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+#  KUBE_NAMESPACE: default
+##  ECR_REPOSITORY: my-cool-application
+##  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+#jobs:
+##  build:
+##    name: Build
+##    runs-on: ubuntu-latest
+##    steps:
+##      - uses: actions/checkout@v3
+##      - name: Set up JDK 17
+##        uses: actions/setup-java@v3
+##        with:
+##          java-version: '17'
+##          distribution: 'temurin'
+##      - name: Change wrapper permissions
+##        run: chmod +x ./gradlew
+##      - name: Build with Gradle
+##        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+##        with:
+##          arguments: build -x test
+#  deploy:
+#    name: Deploy
+##    needs: build
 #    runs-on: ubuntu-latest
 #    steps:
-#      - uses: actions/checkout@v3
-#      - name: Set up JDK 17
-#        uses: actions/setup-java@v3
-#        with:
-#          java-version: '17'
-#          distribution: 'temurin'
-#      - name: Change wrapper permissions
-#        run: chmod +x ./gradlew
-#      - name: Build with Gradle
-#        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-#        with:
-#          arguments: build -x test
-  deploy:
-    name: Deploy
-#    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    
-    - name: Install kubectl
-      uses: azure/setup-kubectl@v3
-      with:
-        version: 'v1.28.3' # default is latest stable
-      id: install
-      
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-#        role-to-assume: arn:aws:iam::454524533145:role/github-role
-        aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
-#        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-    - name: Login to Amazon ECR Public
-      id: login-ecr-public
-      uses: aws-actions/amazon-ecr-login@v1
-      with:
-        registry-type: public
-    - name: Build, tag, and push docker image to Amazon ECR Public
-      env:
-        REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
-        REGISTRY_ALIAS: f0q3d7e3
-        REPOSITORY: cookbook-ecr
-        # IMAGE_TAG: ${{ github.sha }}
-        IMAGE_TAG: latest
-      run: |
-        docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
-        docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
-
-#    - name: update kube config
-#      run: aws eks update-kubeconfig --name cookbook-cluster --region eu-north-1
-#      run: aws eks update-kubeconfig --name cookbook-cluster --region eu-north-1
-#    - name: Deploy image to Amazon EKS
+#    - uses: actions/checkout@v3
+#
+#    - name: Install kubectl
+#      uses: azure/setup-kubectl@v3
+#      with:
+#        version: 'v1.28.3' # default is latest stable
+#      id: install
+#
+#    - name: Configure AWS credentials
+#      uses: aws-actions/configure-aws-credentials@v1
+#      with:
+##        role-to-assume: arn:aws:iam::454524533145:role/github-role
+#        aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+#        aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+#        aws-region: us-east-1
+##        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+##        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#
+#    - name: Login to Amazon ECR Public
+#      id: login-ecr-public
+#      uses: aws-actions/amazon-ecr-login@v1
+#      with:
+#        registry-type: public
+#    - name: Build, tag, and push docker image to Amazon ECR Public
+#      env:
+#        REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
+#        REGISTRY_ALIAS: f0q3d7e3
+#        REPOSITORY: cookbook-ecr
+#        # IMAGE_TAG: ${{ github.sha }}
+#        IMAGE_TAG: latest
 #      run: |
-#        kubectl apply -f k8s/aws-auth.yaml
-#        kubectl apply -f k8s/Deployment.yaml
-#        kubectl apply -f k8s/Service.yaml
-#        kubectl apply -f k8s/ingress.yaml
-    - name: Deploy to Kubernetes cluster
-      uses: kodermax/kubectl-aws-eks@master
-      env:
-        RELEASE_IMAGE: ${{ steps.login-ecr-public.outputs.registry }}/f0q3d7e3/cookbook-ecr:latest
-      with:
-        args: set image deployment/cook-book-deployment cook-book=${{ env.RELEASE_IMAGE }} --record -n $KUBE_NAMESPACE
-
-    - name: Verify Kubernetes deployment
-      uses: kodermax/kubectl-aws-eks@master
-      with:
-        args: rollout status deploy my-pod -n $KUBE_NAMESPACE
+#        docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
+#        docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
+#
+##    - name: update kube config
+##      run: aws eks update-kubeconfig --name cookbook-cluster --region eu-north-1
+##      run: aws eks update-kubeconfig --name cookbook-cluster --region eu-north-1
+##    - name: Deploy image to Amazon EKS
+##      run: |
+##        kubectl apply -f k8s/aws-auth.yaml
+##        kubectl apply -f k8s/Deployment.yaml
+##        kubectl apply -f k8s/Service.yaml
+##        kubectl apply -f k8s/ingress.yaml
+#    - name: Deploy to Kubernetes cluster
+#      uses: kodermax/kubectl-aws-eks@master
+#      env:
+#        RELEASE_IMAGE: ${{ steps.login-ecr-public.outputs.registry }}/f0q3d7e3/cookbook-ecr:latest
+#      with:
+#        args: set image deployment/cook-book-deployment cook-book=${{ env.RELEASE_IMAGE }} --record -n $KUBE_NAMESPACE
+#
+#    - name: Verify Kubernetes deployment
+#      uses: kodermax/kubectl-aws-eks@master
+#      with:
+#        args: rollout status deploy my-pod -n $KUBE_NAMESPACE
